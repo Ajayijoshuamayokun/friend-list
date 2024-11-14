@@ -35,7 +35,13 @@ const authenticatedUser = (username, password) => {
 
 const app = express();
 
-app.use(session({secret:"fingerpint"},resave=true,saveUninitialized=true));
+
+app.use(session({
+    secret: "fingerpint",
+    resave: true,
+    saveUninitialized: true
+}));
+
 
 app.use(express.json());
 
@@ -74,7 +80,7 @@ app.post("/login", (req, res) => {
         // Generate JWT access token
         let accessToken = jwt.sign({
             data: password
-        }, 'access', { expiresIn: 60 * 60 });
+        }, 'access', { expiresIn: 60 }); //If you submit the login request within 60 seconds of generating the access token, you will be authenticated.
 
         // Store access token and username in session
         req.session.authorization = {
